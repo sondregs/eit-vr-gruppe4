@@ -1,10 +1,11 @@
 import time
+import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 
 class Watcher:
-    # DENNE MÅ ENDRES:
+    # TODO: DENNE MÅ ENDRES:
     DIRECTORY_TO_WATCH = "/home/sondre/git/eit-vr-gruppe4/photos"
 
     def __init__(self):
@@ -34,6 +35,11 @@ class Handler(FileSystemEventHandler):
         elif event.event_type == 'created':
             # Take any action here when a file is first created.
             print("Received created event - %s." % event.src_path)
+            with open('log.txt', 'a') as file:
+                filename = event.src_path.split('/')[-1]
+                dt = datetime.datetime.now()
+                coords = "123,123"
+                file.write('{"file": "%s", "time": "%s", "coords": "%s"}\n' % (filename, dt, coords))
 
         elif event.event_type == 'modified':
             # Taken any action here when a file is modified.
