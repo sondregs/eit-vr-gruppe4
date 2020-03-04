@@ -6,7 +6,7 @@ from watchdog.events import FileSystemEventHandler
 
 class Watcher:
     # TODO: DENNE MÅ ENDRES:
-    DIRECTORY_TO_WATCH = "/home/sondre/git/eit-vr-gruppe4/photos"
+    DIRECTORY_TO_WATCH = "/media/pi/744E-C88C"
 
     def __init__(self):
         self.observer = Observer()
