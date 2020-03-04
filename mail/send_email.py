@@ -19,11 +19,11 @@ def _get_email_secret():
 _FROM_EMAIL_PASSWORD = _get_email_secret()
 
 
-def send_email(to_email: str, subject: str, message: str):
+def send_email(to_email: str, subject: str, message: str, subject_prefix="[Firewatcher]") -> EmailMessage:
     msg = EmailMessage()
     msg.set_content(message)
 
-    msg["Subject"] = subject
+    msg["Subject"] = f"{subject_prefix} {subject}"
     msg["From"] = _FROM_EMAIL
     msg["To"] = to_email
 
@@ -31,3 +31,5 @@ def send_email(to_email: str, subject: str, message: str):
         smtp.ehlo()
         smtp.login(_FROM_EMAIL, _FROM_EMAIL_PASSWORD)
         smtp.send_message(msg)
+
+    return msg
