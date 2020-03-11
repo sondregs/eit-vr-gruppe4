@@ -200,3 +200,6 @@ venv/
 
 # Passwords and other secrets
 *secret.txt
+
+# Camera Log
+*log.txt
