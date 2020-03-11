@@ -12,7 +12,7 @@ The thermal values that are returned by this library might not match the therama
 import flirimageextractor 
 import numpy
 
-img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"
+img_path = "./../sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"
 
 # Initialize the FlirImageExtractor class
 flir = flirimageextractor.FlirImageExtractor()
@@ -43,7 +43,8 @@ print(thermal_np_array)
 
 # If you want to save the image you will have to set the full path and name for the new image that will be saved
 new_img_name = "saved image.jpg"
-flir.flir_img_filename = "C:/Users/Utlån/code/eit/eit-vr-gruppe4/flir_image_extractor/" + new_img_name
+directory_path = "C:/Users/Utlån/code/eit/eit-vr-gruppe4/flir_thermal_img_analysis/flirimageextractor_pip_library/"
+flir.flir_img_filename = directory_path + new_img_name
 
 flir.save_images()
 
