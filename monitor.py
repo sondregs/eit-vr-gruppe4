@@ -3,6 +3,9 @@ import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+######################################################
+# This script does not work with mounting/unmounting #
+######################################################
 
 class Watcher:
     # TODO: DENNE MÅ ENDRES:
