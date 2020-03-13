@@ -2,6 +2,8 @@ import smtplib
 from email.message import EmailMessage
 from pathlib import Path
 
+from ..message import Message
+
 
 EMAIL_DIR = Path(__file__).resolve().parent
 _FROM_EMAIL = "eit.vr.gruppe4@gmail.com"
@@ -19,13 +21,13 @@ def _get_email_secret():
 _FROM_EMAIL_PASSWORD = _get_email_secret()
 
 
-def send_email(to_email: str, subject: str, message: str, subject_prefix="[Firewatcher]") -> EmailMessage:
+def send_email(message: Message) -> EmailMessage:
     msg = EmailMessage()
-    msg.set_content(message)
+    msg.set_content(message.body)
 
-    msg["Subject"] = f"{subject_prefix} {subject}"
+    msg["Subject"] = message.subject
     msg["From"] = _FROM_EMAIL
-    msg["To"] = to_email
+    msg["To"] = message.recipient
 
     with smtplib.SMTP_SSL(_FROM_EMAIL_HOST) as smtp:
         smtp.ehlo()
