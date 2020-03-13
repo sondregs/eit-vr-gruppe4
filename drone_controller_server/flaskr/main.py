@@ -1,14 +1,15 @@
-from flask import Flask, request
+from flask import Blueprint, request
 
 from message.mail.send_email import send_email
 from message.message import Message
 
-app = Flask(__name__)
+
+bp = Blueprint("send_email", __name__, url_prefix="/send_email")
 
 to_email = "REPLACE WITH EMAIL ADDRESS"
 
 
-@app.route("/send_email/")
+@bp.route("/", methods=("GET",))
 def send_email_view():
     subject = request.args.get("subject", "")
     body = request.args.get("message", "")
