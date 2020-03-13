@@ -1,6 +1,6 @@
 from flask import Flask, request
 
-from mail.send_email import send_email
+from message.mail.send_email import send_email
 
 app = Flask(__name__)
 
