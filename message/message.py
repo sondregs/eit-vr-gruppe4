@@ -8,3 +8,7 @@ class Message:
 
     def add_attachments(self, *attachments):
         self.attachments.extend(attachments)
+
+
+class UnreachableRecipientError(Exception):
+    pass
