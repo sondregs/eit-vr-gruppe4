@@ -1,7 +1,7 @@
 import time
 from threading import Thread
 
-from message.mail.send_email import send_email
+from message.mail.send_email import create_email, send_email
 from message.message import Message
 from rpi_message_client.message_queue import MessageQueue
 
@@ -27,7 +27,8 @@ class MessageDaemon(Thread):
 
     def _send_next_message(self):
         def send_func(message: Message):
-            send_email(message)
+            email = create_email(message)
+            send_email(email)
 
         self._message_queue.send_next(send_func)
 

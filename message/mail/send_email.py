@@ -21,17 +21,19 @@ def _get_email_secret():
 _FROM_EMAIL_PASSWORD = _get_email_secret()
 
 
-def send_email(message: Message) -> EmailMessage:
-    msg = EmailMessage()
-    msg.set_content(message.body)
+def create_email(message: Message) -> EmailMessage:
+    email = EmailMessage()
+    email.set_content(message.body)
 
-    msg["Subject"] = message.subject
-    msg["From"] = _FROM_EMAIL
-    msg["To"] = message.recipient
+    email["Subject"] = message.subject
+    email["From"] = _FROM_EMAIL
+    email["To"] = message.recipient
 
+    return email
+
+
+def send_email(email: EmailMessage):
     with smtplib.SMTP_SSL(_FROM_EMAIL_HOST) as smtp:
         smtp.ehlo()
         smtp.login(_FROM_EMAIL, _FROM_EMAIL_PASSWORD)
-        smtp.send_message(msg)
-
-    return msg
+        smtp.send_message(email)
