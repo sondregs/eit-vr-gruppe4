@@ -215,6 +215,8 @@ pip-selfcheck.json
 # Passwords and other secrets
 *secret.txt
 
+# Addresses
+controller_server_ip.txt
 
 # Camera Log
 *log.txt
