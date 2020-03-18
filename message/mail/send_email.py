@@ -1,13 +1,18 @@
-import smtplib
 from email.message import EmailMessage
 from pathlib import Path
+from smtplib import SMTP_SSL
 
-from ..message import Message
+from validate_email import validate_email
+
+from ..message import InvalidRecipientError, Message
+from ..util import has_connection_to
 
 
 EMAIL_DIR = Path(__file__).resolve().parent
 _FROM_EMAIL = "eit.vr.gruppe4@gmail.com"
 _FROM_EMAIL_HOST = "smtp.gmail.com"
+
+CONNECTION_TIMEOUT = 10.0
 
 
 def _get_email_secret():
@@ -33,7 +38,18 @@ def create_email(message: Message) -> EmailMessage:
 
 
 def send_email(email: EmailMessage):
-    with smtplib.SMTP_SSL(_FROM_EMAIL_HOST) as smtp:
+    with SMTP_SSL(_FROM_EMAIL_HOST) as smtp:
         smtp.ehlo()
         smtp.login(_FROM_EMAIL, _FROM_EMAIL_PASSWORD)
+        _validate_email(email["To"])
         smtp.send_message(email)
+
+
+def _validate_email(email_address: str):
+    if not validate_email(email_address, verify=True, smtp_timeout=CONNECTION_TIMEOUT):
+        # If connection is lost while executing validate_email(), it will return False;
+        # therefore, check if that is the case:
+        if not has_connection_to(_FROM_EMAIL_HOST, timeout=1.0):
+            raise ConnectionError("Lost connection while validating email address.")
+
+        raise InvalidRecipientError(f"Invalid email address: {email_address}")

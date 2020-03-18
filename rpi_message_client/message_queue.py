@@ -1,7 +1,7 @@
 from collections import deque
 from typing import Any, Callable
 
-from message.message import Message, UnreachableRecipientError
+from message.message import InvalidRecipientError, Message
 
 
 class MessageQueue:
@@ -21,9 +21,11 @@ class MessageQueue:
         head_index = 0
         try:
             send_func(self._queue[head_index])
-        except UnreachableRecipientError:
-            # If unable to reach recipient, put message at the tail of the queue
-            self._queue.rotate(-1)
+        except InvalidRecipientError:
+            # Remove message if invalid recipient
+            invalid_message = self._queue.popleft()
+            print("Invalid recipient:")
+            print(invalid_message)
             return
 
         self._queue.popleft()

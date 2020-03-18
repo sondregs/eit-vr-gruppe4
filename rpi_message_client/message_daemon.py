@@ -1,4 +1,5 @@
 import time
+from smtplib import SMTPException
 from threading import Thread
 
 from message.mail.send_email import create_email, send_email
@@ -22,7 +23,7 @@ class MessageDaemon(Thread):
 
             try:
                 self._send_next_message()
-            except ConnectionRefusedError:
+            except (ConnectionError, SMTPException) as e:
                 self._sleep()
 
     def _send_next_message(self):

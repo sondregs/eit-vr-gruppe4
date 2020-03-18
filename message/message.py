@@ -9,6 +9,9 @@ class Message:
     def add_attachments(self, *attachments):
         self.attachments.extend(attachments)
 
+    def __str__(self):
+        return "<Message\n" + "\n".join(f"  {k}: '{v}'" for k, v in self.__dict__.items()) + "\n>"
 
-class UnreachableRecipientError(Exception):
+
+class InvalidRecipientError(Exception):
     pass
