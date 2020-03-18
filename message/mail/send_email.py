@@ -3,6 +3,7 @@ from pathlib import Path
 from smtplib import SMTP_SSL
 
 from validate_email import validate_email
+from wrapt_timeout_decorator import timeout
 
 from ..message import InvalidRecipientError, Message
 from ..util import has_connection_to
@@ -37,6 +38,7 @@ def create_email(message: Message) -> EmailMessage:
     return email
 
 
+@timeout(CONNECTION_TIMEOUT)
 def send_email(email: EmailMessage):
     with SMTP_SSL(_FROM_EMAIL_HOST) as smtp:
         smtp.ehlo()

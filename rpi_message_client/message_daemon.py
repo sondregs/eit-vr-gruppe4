@@ -8,7 +8,7 @@ from rpi_message_client.message_queue import MessageQueue
 
 
 class MessageDaemon(Thread):
-    _WAIT_TIME_BETWEEN_TRIES = 1.0  # seconds
+    _WAIT_TIME_BETWEEN_TRIES = 3.0  # seconds
 
     def __init__(self):
         # Do not set as daemon, as messages need to be finished sent before program terminates
@@ -21,15 +21,23 @@ class MessageDaemon(Thread):
                 self._sleep()
                 continue
 
+            print("Sending next message...", end="\t\t")
             try:
                 self._send_next_message()
+            except TimeoutError:
+                print("Timed out.")
             except (ConnectionError, SMTPException) as e:
+                print(e)
+                self._sleep()
+            except OSError as e:
+                print(e)
                 self._sleep()
 
     def _send_next_message(self):
         def send_func(message: Message):
             email = create_email(message)
             send_email(email)
+            print("Message sent!")
 
         self._message_queue.send_next(send_func)
 
