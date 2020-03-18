@@ -4,7 +4,7 @@ from threading import Thread
 
 from message.mail.send_email import create_email, send_email
 from message.message import Message
-from rpi_message_client.message_queue import MessageQueue
+from .message_queue import MessageQueue
 
 
 class MessageDaemon(Thread):

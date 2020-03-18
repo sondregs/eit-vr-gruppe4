@@ -2,7 +2,7 @@ from flask import Blueprint, request
 
 from message.mail.send_email import create_email
 from message.message import Message
-from rpi_message_client.message_daemon import MessageDaemon
+from ..message_daemon import MessageDaemon
 
 
 bp = Blueprint("send_email", __name__, url_prefix="/send_email")
