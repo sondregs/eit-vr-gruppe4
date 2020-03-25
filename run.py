@@ -39,4 +39,11 @@ if __name__ == '__main__':
             file.write('{"file": "%s", "gps": "%s", "above_threshold": "%s"}\n' % (new_file, gps, above_threshold))
         if above_threshold:
             # Send email
-            send_email('Heat Detected', "Heat detected at" + str(gps))
+            subject = 'WARNING: Fire Detected'
+            body = f"Possible fire detected by Forest Fire Finder detected at {gps[2]}\n\n" \
+                   f"Google Maps Location:\n{gps[3]}\n\n" \
+                   f"Geographical coordinates of drone:\n" \
+                   f"Latitude:\t  {gps[0]}\n" \
+                   f"Longitude:\t{gps[1]}\n" \
+                   f"Altitude:\t   {gps[4]}{gps[5]}"
+            send_email(subject, body)

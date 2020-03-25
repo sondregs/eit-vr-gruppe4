@@ -1,5 +1,6 @@
 import serial
 import pynmea2
+from datetime import datetime
 
 
 def parse_gps(str):
@@ -12,7 +13,8 @@ def parse_gps(str):
             lon = msg.longitude
             link = "https://www.google.com/maps/place/%s,%s" % (lat,lon)
             #print(f'lat: {lat}, lon: {lon}')
-            return lat, lon, msg.timestamp, link, msg.altitude, msg.altitude_units
+            time = datetime.now().strftime("%H:%M:%S, %m/%d/%Y")
+            return lat, lon, time, link, msg.altitude, msg.altitude_units
 
 
 serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
