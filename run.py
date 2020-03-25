@@ -6,6 +6,7 @@ from record import take_pic
 from gps import get_gps
 from flir_thermal_img_analyzer import thresholder
 from rpi_message_client.send_message import send_email
+from PIL import Image
 
 
 def list_files(directory, extension):
@@ -29,9 +30,11 @@ if __name__ == '__main__':
         new_file = list(set(new_files) - set(old_files))[0] # Selects first file if somehow multiple new files
         old_files = new_files
         print(new_file)
-        above_threshold, org_img, new_img = thresholder(new_file)
+        above_threshold, org_img, new_img = thresholder(new_file, 50)
+        #org_img.show()
+        new_img.show()
         with open('log.txt', 'a') as file:
             file.write('{"file": "%s", "gps": "%s", "above_threshold": "%s"}\n' % (new_file, gps, above_threshold))
         if above_threshold:
             # Send email
-            send_email('Heat Detected', "Heat detected at" + gps)
+            send_email('Heat Detected', "Heat detected at" + str(gps))
