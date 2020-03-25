@@ -17,11 +17,13 @@ def list_files(directory, extension):
 
 
 if __name__ == '__main__':
-    num = 3
+    finite_images = False
+    num_of_images = 3
     path = '/media/pi/'
     serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
     old_files = list_files(path, 'jpg')
-    for i in range(num):
+    while num_of_images or not finite_images:
+        num_of_images -= 1
         take_pic() # Takes picture
         gps = get_gps()
         print(gps)
