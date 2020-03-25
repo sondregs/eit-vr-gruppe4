@@ -1,0 +1,2 @@
+https://github.com/OpenSolo/solo-cli/archive/92540a8601d841831d6929b57d2115646639aa73.zip
+virtualenv
