@@ -40,7 +40,7 @@ if __name__ == '__main__':
         if above_threshold:
             # Send email
             subject = 'WARNING: Fire Detected'
-            body = f"Possible fire detected by Forest Fire Finder detected at {gps[2]}\n\n" \
+            body = f"Possible fire detected by Forest Fire Finder at {gps[2]}\n\n" \
                    f"Google Maps Location:\n{gps[3]}\n\n" \
                    f"Geographical coordinates of drone:\n" \
                    f"Latitude:\t  {gps[0]}\n" \
