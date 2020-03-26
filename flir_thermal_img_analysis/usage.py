@@ -1,4 +1,4 @@
-from flir_thermal_img_analyzer import thresholder
+from .flir_thermal_img_analyzer import thresholder
 
 img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"  # Relative or absolute path
 threshold_value = 25            # The temperature limit (in celsius) that is used for thresholding the thermal image 
