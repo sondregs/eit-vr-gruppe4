@@ -13,14 +13,6 @@ Eksperter i Team - TPG4850 VR landsbyen Gruppe 4 - NTNU
 
 - Endre mail i `rpi/messaging/sending.py` til egen mail
 - Lage tekstdokument `email_secret.txt` i `rpi/messaging/util/mail` med 16-tegns kode i slack
-- Lage tekstdokument `controller_server_ip.txt` i `rpi_client_message` med innhold: `localhost`
-
-##### Starte mail server:
-Terminal commands:
-
-I `eit-vr-gruppe4` mappen
-1. `export FLASK_APP=drone_controller_server/flaskr/__init__.py`
-2. `flask run`
 
 ##### Starte å ta bilder
 I `eit-vr-gruppe4` mappen
