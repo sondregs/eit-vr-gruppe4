@@ -5,7 +5,7 @@ import serial
 from record import take_pic
 from gps import get_gps
 from flir_thermal_img_analyzer import thresholder
-from rpi_message_client.send_message import send_email
+from rpi.messaging.sending import send_email
 from PIL import Image
 
 

@@ -1,7 +1,7 @@
 from collections import deque
 from typing import Any, Callable
 
-from message.message import InvalidRecipientError, Message
+from ..util.message import InvalidRecipientError, Message
 
 
 class MessageQueue:
