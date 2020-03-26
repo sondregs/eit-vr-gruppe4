@@ -1,23 +1,19 @@
-from pathlib import Path
+from typing import Tuple
 
-import requests
+from PIL.ImageFile import ImageFile
 
-
-CURRENT_DIR = Path(__file__).resolve().parent
-
-
-def _get_webserver_ip() -> str:
-    webserver_ip_file = CURRENT_DIR / "controller_server_ip.txt"
-    try:
-        return webserver_ip_file.read_text().strip()
-    except IOError:
-        raise FileNotFoundError(f"Please create the file \"{webserver_ip_file.absolute()}\" with the IP address to the drone controller server.")
+from .daemon.message_daemon import MessageDaemon
+from .util.message import Message
 
 
-def send_email(subject: str, message: str):
-    webserver_ip = _get_webserver_ip()
-    params = {
-        "subject": subject,
-        "message": message,
-    }
-    requests.get(f"http://{webserver_ip}:5000/send_email/", params=params)
+message_daemon = MessageDaemon()
+message_daemon.start()
+to_email = "REPLACE WITH EMAIL ADDRESS"
+
+
+def send_alert(subject: str, message: str, *image_imagename_tuples: Tuple[ImageFile, str]):
+    message_obj = Message(to_email, subject, message)
+    for image, image_name in image_imagename_tuples:
+        message_obj.add_image_attachment(image, image_name)
+
+    message_daemon.add_message_for_sending(message_obj)

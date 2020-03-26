@@ -11,8 +11,8 @@ Eksperter i Team - TPG4850 VR landsbyen Gruppe 4 - NTNU
 
 ##### Lokale filendringer:
 
-- Endre mail i `drone_controller_server/flaskr/main.py` til egen mail
-- Lage tekstdokument `email_secret.txt` i `message/mail` med 16-tegns kode i slack
+- Endre mail i `rpi/messaging/sending.py` til egen mail
+- Lage tekstdokument `email_secret.txt` i `rpi/messaging/util/mail` med 16-tegns kode i slack
 - Lage tekstdokument `controller_server_ip.txt` i `rpi_client_message` med innhold: `localhost`
 
 ##### Starte mail server:
