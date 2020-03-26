@@ -7,6 +7,7 @@ import serial
 from flir_thermal_img_analyzer import thresholder
 from gps import get_gps
 from record import take_pic
+from rpi.messaging import sending
 from rpi.messaging.sending import send_alert
 
 
@@ -18,11 +19,14 @@ def list_files(directory, extension):
 
 
 if __name__ == '__main__':
+    sending.init()
+
     finite_images = False
     num_of_images = 3
     path = '/media/pi/'
     serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
     old_files = list_files(path, 'jpg')
+
     while num_of_images or not finite_images:
         num_of_images -= 1
         take_pic()  # Takes picture
