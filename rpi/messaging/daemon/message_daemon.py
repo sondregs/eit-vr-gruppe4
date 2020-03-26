@@ -2,9 +2,9 @@ import time
 from smtplib import SMTPException
 from threading import Thread
 
-from message.mail.send_email import create_email, send_email
-from message.message import Message
 from .message_queue import MessageQueue
+from ..util.mail.send_email import create_email, send_email
+from ..util.message import Message
 
 
 class MessageDaemon(Thread):

@@ -1,3 +1,4 @@
+import io
 from email.message import EmailMessage
 from pathlib import Path
 from smtplib import SMTP_SSL
@@ -34,6 +35,11 @@ def create_email(message: Message) -> EmailMessage:
     email["Subject"] = message.subject
     email["From"] = _FROM_EMAIL
     email["To"] = message.recipient
+
+    for image in message.get_image_attachments():
+        image_bytes = io.BytesIO()
+        image.save(image_bytes, format=image.format)
+        email.add_attachment(image_bytes.getvalue(), maintype='image', subtype=image.format, filename=image.filename)
 
     return email
 
