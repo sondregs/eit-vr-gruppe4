@@ -1,7 +1,6 @@
 from flir_thermal_img_analyzer import thresholder
-from PIL import Image
 
-img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg" # Relative or absolute path
+img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"  # Relative or absolute path
 threshold_value = 25            # The temperature limit (in celsius) that is used for thresholding the thermal image 
 threshold_color = (255, 0, 0)   # The new RGB value that will replace the pixels that are above the the temperature limit 
 

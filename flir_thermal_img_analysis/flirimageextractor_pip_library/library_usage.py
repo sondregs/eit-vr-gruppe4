@@ -9,8 +9,7 @@ The thermal values that are returned by this library might not match the therama
 
 """
 
-import flirimageextractor 
-import numpy
+import flirimageextractor
 
 img_path = "./../sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"
 
@@ -32,7 +31,6 @@ flir.loadfile(img_path)
 img_type = flir.get_image_type()
 print(img_type)
 
-
 # The process image method will process the image and asign appropriate values to all attributes in the class.
 # We can specify if we want the class to generate rgb numpy array of the image. This will consume memory and take processing time, so it should be false. Also, right now there seems to be a bug that causes the library to crash when this is set to true
 generate_rgb_array = False
@@ -53,4 +51,3 @@ test = flir.save_images(bytesIO=True)
 
 # Plots the image that has been processed. Palettes for the plot can be set in the class constructor or through the pallettes attribute of the class. 
 flir.plot()
-

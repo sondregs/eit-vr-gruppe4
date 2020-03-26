@@ -3,8 +3,8 @@ import soloutils
 
 def controller_versions__monkey_patch(controller):
     code, controller_str, stderr = soloutils.command(controller, 'cat /VERSION')
-    # Have to add two unpacking variables, as OpenSolo adds some extra output when running the above command.
-    # Also have to split by newline instead of space.
+    # Have to add two unpacking variables and split on newline,
+    # as the `/VERSION` file now contains 4 lines instead of one line with 2 tokens separated by a space
     version, ref, _name, _ = controller_str.strip().split('\n')
     return {
         "version": version,

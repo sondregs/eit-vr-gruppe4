@@ -8,6 +8,7 @@ from .util.message import Message
 
 message_daemon = MessageDaemon()
 message_daemon.start()
+# TODO: find fitting permanent email
 to_email = "REPLACE WITH EMAIL ADDRESS"
 
 
