@@ -20,7 +20,7 @@ Eksperter i Team - TPG4850 VR landsbyen Gruppe 4 - NTNU
 Terminal commands:
 
 I `eit-vr-gruppe4` mappen
-1. `export FLASK_APP=drone_controller_server/flaskr/__init__.py`
+1. `export FLASK_APP=drone_controller/flaskr/__init__.py`
 2. `flask run`
 
 ##### Starte å ta bilder
