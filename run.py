@@ -11,11 +11,19 @@ from rpi.messaging import sending
 from rpi.messaging.sending import send_alert
 
 
-def list_files(directory, extension):
+def list_images(directory, extension="jpg"):
     file_list = []
     for (dirpath, dirnames, filenames) in walk(directory):
         file_list += [os.path.join(dirpath, f) for f in filenames if f.endswith(f".{extension}")]
     return file_list
+
+
+def get_newest_image(new_images: list, old_images: list):
+    newest_images = list(set(new_images) - set(old_images))
+    if newest_images:
+        return newest_images[0]  # selects first file if somehow multiple new files
+    else:
+        return None
 
 
 if __name__ == '__main__':
@@ -25,7 +33,7 @@ if __name__ == '__main__':
     num_of_images = 3
     path = '/media/pi/'
     serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
-    old_files = list_files(path, 'jpg')
+    old_images = list_images(path)
 
     while num_of_images or not finite_images:
         num_of_images -= 1
@@ -33,11 +41,13 @@ if __name__ == '__main__':
         gps = get_gps()
         print(gps)
         sleep(4)  # 4 is the lowest working sleep time
-        new_files = list_files(path, 'jpg')
-        new_file = list(set(new_files) - set(old_files))[0]  # Selects first file if somehow multiple new files
-        old_files = new_files
-        print(new_file)
-        above_threshold, org_img, new_img = thresholder(new_file, 50)
+
+        new_images = list_images(path)
+        newest_image = get_newest_image(new_images, old_images)
+        if not newest_image:
+            continue
+        print(newest_image)
+        above_threshold, org_img, new_img = thresholder(newest_image, 50)
         #org_img.show()
         new_img.show()
         with open('log.txt', 'a') as file:
