@@ -13,7 +13,7 @@ from rpi.messaging.sending import send_alert
 
 def list_images(directory, extension="jpg"):
     file_list = []
-    for (dirpath, dirnames, filenames) in walk(directory):
+    for dirpath, dirnames, filenames in walk(directory):
         file_list += [os.path.join(dirpath, f) for f in filenames if f.endswith(f".{extension}")]
     return file_list
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     while num_of_images or not finite_images:
         num_of_images -= 1
-        take_pic()  # Takes picture
+        take_pic()  # takes picture
         gps = get_gps()
         print(gps)
         sleep(4)  # 4 is the lowest working sleep time
@@ -51,14 +51,14 @@ if __name__ == '__main__':
         #org_img.show()
         new_img.show()
         with open('log.txt', 'a') as file:
-            file.write(f'{"file": "{new_file}", "gps": "{gps}", "above_threshold": "{above_threshold}"}\n')
+            file.write(f'{{"file": "{newest_image}", "gps": "{gps}", "above_threshold": "{above_threshold}"}}\n')
         if above_threshold:
             # Send email
-            subject = 'WARNING: Fire Detected'
+            subject = "WARNING: Fire Detected"
             body = f"Possible fire detected by Forest Fire Finder at {gps[2]}\n\n" \
-                   f"Google Maps Location:\n{gps[3]}\n\n" \
+                   f"Google Maps location:\n{gps[3]}\n\n" \
                    f"Geographical coordinates of drone:\n" \
-                   f"Latitude:\t  {gps[0]}\n" \
-                   f"Longitude:\t{gps[1]}\n" \
-                   f"Altitude:\t   {gps[4]}{gps[5]}"
+                   f"Latitude: \t {gps[0]}\n" \
+                   f"Longitude:\t {gps[1]}\n" \
+                   f"Altitude: \t {gps[4]}{gps[5]}"
             send_alert(subject, body, (org_img, "Captured image"), (new_img, "Annotated image"))
