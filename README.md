@@ -9,6 +9,7 @@ Prosjektet til gruppe 4 i TPG4850 - VR-landsbyen ved NTNU.
 
 ##### Installere ExifTool
 - Installer ExifTool ved å følge instrukser på https://exiftool.org/install.html
+- Kontroler at ExifTool er lagt til i PATH ved å skrive inn `exiftool` i komandolinjen
 
 ##### Oppsett lokalt:
 - Endre `to_email` i [`rpi/messaging/sending.py`](/rpi/messaging/sending.py) til ønsket e-postadresse
