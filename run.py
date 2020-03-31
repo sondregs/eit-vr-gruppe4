@@ -39,14 +39,13 @@ if __name__ == '__main__':
         num_of_images -= 1
         take_pic()  # takes picture
         gps = get_gps()
-        print(gps)
         sleep(4)  # 4 is the lowest working sleep time
 
         new_images = list_images(path)
         newest_image = get_newest_image(new_images, old_images)
         if not newest_image:
             continue
-        print(newest_image)
+
         above_threshold, org_img, new_img = thresholder(newest_image, 50)
         #org_img.show()
         new_img.show()
