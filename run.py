@@ -1,49 +1,63 @@
-from os import walk
 import os
+from os import walk
 from time import sleep
+
 import serial
-from record import take_pic
+
+from flir_thermal_img_analysis.flir_thermal_img_analyzer import thresholder
 from gps import get_gps
-from flir_thermal_img_analyzer import thresholder
+from record import take_pic
+from rpi.messaging import sending
 from rpi.messaging.sending import send_alert
-from PIL import Image
 
 
-def list_files(directory, extension):
+def list_images(directory, extension="jpg"):
     file_list = []
-    for (dirpath, dirnames, filenames) in walk(directory):
-        file_list += [os.path.join(dirpath,f) for f in filenames if f.endswith('.' + extension)]
+    for dirpath, dirnames, filenames in walk(directory):
+        file_list += [os.path.join(dirpath, f) for f in filenames if f.endswith(f".{extension}")]
     return file_list
 
 
+def get_newest_image(new_images: list, old_images: list):
+    newest_images = list(set(new_images) - set(old_images))
+    if newest_images:
+        return newest_images[0]  # selects first file if somehow multiple new files
+    else:
+        return None
+
+
 if __name__ == '__main__':
+    sending.init()
+
     finite_images = False
     num_of_images = 3
     path = '/media/pi/'
     serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
-    old_files = list_files(path, 'jpg')
+    old_images = list_images(path)
+
     while num_of_images or not finite_images:
         num_of_images -= 1
-        take_pic() # Takes picture
+        take_pic()  # takes picture
         gps = get_gps()
-        print(gps)
-        sleep(4) # 4 is the lowest working sleep time
-        new_files = list_files(path, 'jpg')
-        new_file = list(set(new_files) - set(old_files))[0] # Selects first file if somehow multiple new files
-        old_files = new_files
-        print(new_file)
-        above_threshold, org_img, new_img = thresholder(new_file, 50)
+        sleep(4)  # 4 is the lowest working sleep time
+
+        new_images = list_images(path)
+        newest_image = get_newest_image(new_images, old_images)
+        if not newest_image:
+            continue
+
+        above_threshold, org_img, new_img = thresholder(newest_image, 50)
         #org_img.show()
         new_img.show()
         with open('log.txt', 'a') as file:
-            file.write('{"file": "%s", "gps": "%s", "above_threshold": "%s"}\n' % (new_file, gps, above_threshold))
+            file.write(f'{{"file": "{newest_image}", "gps": "{gps}", "above_threshold": "{above_threshold}"}}\n')
         if above_threshold:
             # Send email
-            subject = 'WARNING: Fire Detected'
+            subject = "WARNING: Fire Detected"
             body = f"Possible fire detected by Forest Fire Finder at {gps[2]}\n\n" \
-                   f"Google Maps Location:\n{gps[3]}\n\n" \
+                   f"Google Maps location:\n{gps[3]}\n\n" \
                    f"Geographical coordinates of drone:\n" \
-                   f"Latitude:\t  {gps[0]}\n" \
-                   f"Longitude:\t{gps[1]}\n" \
-                   f"Altitude:\t   {gps[4]}{gps[5]}"
+                   f"Latitude: \t {gps[0]}\n" \
+                   f"Longitude:\t {gps[1]}\n" \
+                   f"Altitude: \t {gps[4]}{gps[5]}"
             send_alert(subject, body, (org_img, "Captured image"), (new_img, "Annotated image"))

@@ -7,8 +7,12 @@ from .util.message import Message
 
 
 message_daemon = MessageDaemon()
-message_daemon.start()
+# TODO: find fitting permanent email
 to_email = "REPLACE WITH EMAIL ADDRESS"
+
+
+def init():
+    message_daemon.start()
 
 
 def send_alert(subject: str, message: str, *image_imagename_tuples: Tuple[ImageFile, str]):

@@ -5,7 +5,7 @@ from PIL import Image
 # User defined variables
 threshold = 25                  # Celsius
 threshold_color = (255, 0, 0)   # RGB value
-img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg" # Relative or absolute path to the image
+img_path = "./sample_data/flir_vue_pro_r_images/Images/sample_image.jpg"  # Relative or absolute path to the image
 
 # Get the images that will be sent to the end user
 org_img = Image.open(img_path)
@@ -21,7 +21,7 @@ temperatures = np.array(flir.thermal_image_np.copy())
 # Every pixel above the thermal threshold will be asgined the threshold color
 above_threshold = False
 for row, col in np.ndindex(temperatures.shape):
-    if(temperatures[row, col] > threshold ):
+    if temperatures[row, col] > threshold:
         new_img_pixels[col, row] = threshold_color
         above_threshold = True
 
@@ -30,4 +30,3 @@ if above_threshold:
     # Return the pil objects
     org_img.show()
     new_img.show()
-

@@ -1,11 +1,14 @@
-import time
 import datetime
-from watchdog.observers import Observer
+import time
+
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
+
 
 ######################################################
 # This script does not work with mounting/unmounting #
 ######################################################
+
 
 class Watcher:
     # TODO: DENNE MÅ ENDRES:
@@ -21,9 +24,9 @@ class Watcher:
         try:
             while True:
                 time.sleep(5)
-        except:
+        except Exception as e:
             self.observer.stop()
-            print("Error")
+            print(f"Error: {e}")
 
         self.observer.join()
 
@@ -37,16 +40,16 @@ class Handler(FileSystemEventHandler):
 
         elif event.event_type == 'created':
             # Take any action here when a file is first created.
-            print("Received created event - %s." % event.src_path)
+            print(f"Received created event - {event.src_path}.")
             with open('log.txt', 'a') as file:
                 filename = event.src_path.split('/')[-1]
                 dt = datetime.datetime.now()
                 coords = "123,123"
-                file.write('{"file": "%s", "time": "%s", "coords": "%s"}\n' % (filename, dt, coords))
+                file.write(f'{"file": "{filename}", "time": "{dt}", "coords": "{coords}"}\n')
 
         elif event.event_type == 'modified':
             # Taken any action here when a file is modified.
-            print("Received modified event - %s." % event.src_path)
+            print(f"Received modified event - {event.src_path}.")
 
 
 if __name__ == '__main__':
