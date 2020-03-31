@@ -5,7 +5,7 @@ import serial
 
 
 def parse_gps():
-    for i in range(30):
+    for _ in range(30):
         string = serialPort.readline().strip().decode('ascii')
         if string.find('GGA') > 0:
             msg = pynmea2.parse(string)
