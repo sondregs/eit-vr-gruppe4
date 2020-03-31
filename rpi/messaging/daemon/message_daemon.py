@@ -2,6 +2,7 @@ import time
 from smtplib import SMTPException
 from threading import Thread
 
+from util.logging import MESSAGING_LOGGER
 from .message_queue import MessageQueue
 from ..util.mail.send_email import create_email, send_email
 from ..util.message import Message
@@ -21,23 +22,23 @@ class MessageDaemon(Thread):
                 self._sleep()
                 continue
 
-            print("Sending next message...", end="\t\t")
+            MESSAGING_LOGGER.info("Sending next message...")
             try:
                 self._send_next_message()
             except TimeoutError:
-                print("Timed out.")
+                MESSAGING_LOGGER.error("\tTimed out.")
             except (ConnectionError, SMTPException) as e:
-                print(e)
+                MESSAGING_LOGGER.error(f"\t{e}")
                 self._sleep()
             except OSError as e:
-                print(e)
+                MESSAGING_LOGGER.error(f"\t{e}")
                 self._sleep()
 
     def _send_next_message(self):
         def send_func(message: Message):
             email = create_email(message)
             send_email(email)
-            print("Message sent!")
+            MESSAGING_LOGGER.info("\tMessage sent!")
 
         self._message_queue.send_next(send_func)
 

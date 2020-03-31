@@ -1,6 +1,7 @@
 from collections import deque
 from typing import Any, Callable
 
+from util.logging import MESSAGING_LOGGER
 from ..util.message import InvalidRecipientError, Message
 
 
@@ -24,8 +25,7 @@ class MessageQueue:
         except InvalidRecipientError:
             # Remove message if invalid recipient
             invalid_message = self._queue.popleft()
-            print("Invalid recipient:")
-            print(invalid_message)
+            MESSAGING_LOGGER.error(f"Invalid recipient:\n{invalid_message}")
             return
 
         self._queue.popleft()

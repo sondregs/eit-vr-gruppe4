@@ -8,6 +8,7 @@ from smtplib import SMTP_SSL
 from validate_email import validate_email
 from wrapt_timeout_decorator import timeout
 
+from util.logging import MESSAGING_LOGGER
 from ..message import Message
 from ..util import has_connection_to
 
@@ -52,7 +53,7 @@ def check_valid_email(email_address: str):
                     # If connection is lost while executing validate_email(), it will return False;
                     # therefore, check if that is the case:
                     check_connection()
-                    print(f"!!!!! Invalid email address: {address} !!!!!")
+                    MESSAGING_LOGGER.error(f"!!!!! Invalid email address: {address} !!!!!")
 
                 return
             except ConnectionError as e:

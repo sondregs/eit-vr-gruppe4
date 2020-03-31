@@ -9,6 +9,8 @@ from gps import get_gps
 from record import take_pic
 from rpi.messaging import sending
 from rpi.messaging.sending import send_alert
+from util import logging
+from util.logging import IMAGING_LOGGER
 
 
 def list_images(directory, extension="jpg"):
@@ -27,6 +29,7 @@ def get_newest_image(new_images: list, old_images: list):
 
 
 if __name__ == '__main__':
+    logging.init()
     sending.init()
 
     finite_images = False
@@ -49,8 +52,7 @@ if __name__ == '__main__':
         above_threshold, org_img, new_img = thresholder(newest_image, 50)
         #org_img.show()
         new_img.show()
-        with open('log.txt', 'a') as file:
-            file.write(f'{{"file": "{newest_image}", "gps": "{gps}", "above_threshold": "{above_threshold}"}}\n')
+        IMAGING_LOGGER.info(f'Captured image; above threshold: {above_threshold}, GPS: "{gps}", image: "{newest_image}"')
         if above_threshold:
             # Send email
             subject = "WARNING: Fire Detected"
