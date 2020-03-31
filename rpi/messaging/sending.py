@@ -3,6 +3,7 @@ from typing import Tuple
 from PIL.ImageFile import ImageFile
 
 from .daemon.message_daemon import MessageDaemon
+from .util.mail.send_email import check_valid_email
 from .util.message import Message
 
 
@@ -13,6 +14,7 @@ to_email = "REPLACE WITH EMAIL ADDRESS"
 
 def init():
     message_daemon.start()
+    check_valid_email(to_email)
 
 
 def send_alert(subject: str, message: str, *image_imagename_tuples: Tuple[ImageFile, str]):
