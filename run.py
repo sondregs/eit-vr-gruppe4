@@ -49,11 +49,12 @@ if __name__ == '__main__':
         if not newest_image:
             continue
 
+        IMAGING_LOGGER.info(f'Captured image "{newest_image}", GPS: "{gps}"')
         above_threshold, org_img, new_img = thresholder(newest_image, 50)
         #org_img.show()
         new_img.show()
-        IMAGING_LOGGER.info(f'Captured image; above threshold: {above_threshold}, GPS: "{gps}", image: "{newest_image}"')
         if above_threshold:
+            IMAGING_LOGGER.info(f'\tImage was above the threshold of 50 °C! ("{newest_image}", GPS: "{gps}")')
             # Send email
             subject = "WARNING: Fire Detected"
             body = f"Possible fire detected by Forest Fire Finder at {gps[2]}\n\n" \
