@@ -38,6 +38,8 @@ if __name__ == '__main__':
     serialPort = serial.Serial("/dev/ttyAMA0", 9600, timeout=0.5)
     old_images = list_images(path)
 
+    TEMP_THRESHOLD_CELSIUS = 50
+
     while num_of_images or not finite_images:
         num_of_images -= 1
         take_pic()  # takes picture
@@ -50,11 +52,11 @@ if __name__ == '__main__':
             continue
 
         IMAGING_LOGGER.info(f'Captured image "{newest_image}", GPS: "{gps}"')
-        above_threshold, org_img, new_img = thresholder(newest_image, 50)
+        above_threshold, org_img, new_img = thresholder(newest_image, TEMP_THRESHOLD_CELSIUS)
         #org_img.show()
         new_img.show()
         if above_threshold:
-            IMAGING_LOGGER.info(f'\tImage was above the threshold of 50 °C! ("{newest_image}", GPS: "{gps}")')
+            IMAGING_LOGGER.info(f'\tImage was above the threshold of {TEMP_THRESHOLD_CELSIUS} °C! ("{newest_image}", GPS: "{gps}")')
             # Send email
             subject = "WARNING: Fire Detected"
             body = f"Possible fire detected by Forest Fire Finder at {gps[2]}\n\n" \
