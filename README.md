@@ -2,19 +2,19 @@
 Prosjektet til gruppe 4 i TPG4850 - VR-landsbyen ved NTNU.
 
 
-#### Midlertidig oppsett:
+### Foreløpig oppsett
 
-##### Installere python pakker:
+##### Installere Python-pakker:
 - `pip3 install -r requirements.txt`
 
-##### Installere ExifTool
+##### Installere ExifTool:
 - Installer ExifTool ved å følge instrukser på https://exiftool.org/install.html
-- Kontroler at ExifTool er lagt til i PATH ved å skrive inn `exiftool` i komandolinjen
+- Kontroller at ExifTool er lagt til i PATH ved å skrive inn `exiftool` i kommandolinjen
 
 ##### Oppsett lokalt:
 - Endre `to_email` i [`rpi/messaging/sending.py`](/rpi/messaging/sending.py) til ønsket e-postadresse
 - Lag tekstfila `email_secret.txt` i [`rpi/messaging/util/mail`](/rpi/messaging/util/mail) med passordet til eit.vr.gruppe4@gmail.com (står på Slack)
 
-##### Starte å ta bilder og sende varsler
+##### Starte å ta bilder og sende varsler:
 Fra øverste mappen i repoet:
 - `python3 run.py`
