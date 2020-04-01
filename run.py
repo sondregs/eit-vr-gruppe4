@@ -5,10 +5,10 @@ from time import sleep
 import serial
 
 from flir_thermal_img_analysis.flir_thermal_img_analyzer import thresholder
-from gps import get_gps
-from record import take_pic
+from rpi.gps import get_gps
 from rpi.messaging import sending
 from rpi.messaging.sending import send_alert
+from rpi.record import take_pic
 from util import logging
 from util.logging import IMAGING_LOGGER
 
