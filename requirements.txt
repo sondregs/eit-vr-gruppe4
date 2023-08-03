@@ -8,7 +8,7 @@ pynmea2==1.15.0
 
 # Thermal image analysis
 flirimageextractor==1.4.0
-loguru==0.4.1
+loguru==0.5.3
 numpy
 Pillow
 matplotlib
